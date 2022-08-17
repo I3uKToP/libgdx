@@ -19,7 +19,7 @@ public class MyGdxGamex extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		animation = new MyAnimation("sprite.jpg", 14, 5, Animation.PlayMode.LOOP);
+		animation = new MyAnimation("sprite.png", 14, 5, Animation.PlayMode.LOOP);
 	}
 
 	@Override
