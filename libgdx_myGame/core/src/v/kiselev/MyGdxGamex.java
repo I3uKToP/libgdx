@@ -10,56 +10,57 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGamex extends ApplicationAdapter {
-	SpriteBatch batch;
-	int count;
-	MyAnimation animation;
-	boolean dir;
-
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		animation = new MyAnimation("sprite.png", 6, 1, Animation.PlayMode.LOOP);
-	}
-
-	@Override
-	public void render () {
-		ScreenUtils.clear(1, 1, 1, 1);
-
-		animation.setTime(Gdx.graphics.getDeltaTime());
-		int x = Gdx.input.getX() - animation.getFrame().getRegionWidth()/2;
-		int y = Gdx.graphics.getHeight() - Gdx.input.getY() - animation.getFrame().getRegionHeight()/2;
-
-		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-			count++;
-		}
-		Gdx.graphics.setTitle("Count click mouse " + count);
+    SpriteBatch batch;
+    int count;
+    MyAnimation animation;
+    boolean dir;
+    float positionX = 0;
+    int speed = 50;
 
 
-		if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-			dir = true;
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-			dir = false;
-		}
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        animation = new MyAnimation("sprite.png", 6, 1, Animation.PlayMode.NORMAL);
+    }
 
-		if (!animation.getFrame().isFlipX() && !dir) {
-			animation.getFrame().flip(true, false);
-		}
-		if (animation.getFrame().isFlipX() && dir) {
-			animation.getFrame().flip(false, false);
-		}
-		batch.begin();
-//		batch.draw(regions0[0][0],0,0);
-//		batch.draw(animation.getKeyFrame(time),0,0);
-		batch.draw(animation.getFrame(),0,0);
-		batch.end();
+    @Override
+    public void render() {
+        ScreenUtils.clear(1, 1, 1, 1);
 
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		animation.dispose();
-	}
+        animation.setTime(Gdx.graphics.getDeltaTime());
+        int x = Gdx.input.getX() - animation.getFrame().getRegionWidth() / 2;
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY() - animation.getFrame().getRegionHeight() / 2;
+
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            speed++;
+            count++;
+        }
+        Gdx.graphics.setTitle("Count click mouse " + count);
+
+        if (positionX > animation.getFrame().getRegionWidth() * 1.5) {
+            dir = false;
+        }
+        if (positionX < 0) {
+            dir = true;
+        }
+
+        if (dir) {
+            positionX += Gdx.graphics.getDeltaTime() * speed;
+        } else {
+            positionX -= Gdx.graphics.getDeltaTime() * speed;
+        }
+        animation.getFrame().flip(dir, false);
+
+
+        batch.begin();
+        batch.draw(animation.getFrame(), positionX, 0);
+        batch.end();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        animation.dispose();
+    }
 }
