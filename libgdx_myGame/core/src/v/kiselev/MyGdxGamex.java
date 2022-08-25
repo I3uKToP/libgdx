@@ -21,7 +21,7 @@ public class MyGdxGamex extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        animation = new MyAnimation("sprite.png", 6, 1, Animation.PlayMode.NORMAL);
+        animation = new MyAnimation("sprite.png", 6, 1, Animation.PlayMode.LOOP);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MyGdxGamex extends ApplicationAdapter {
         } else {
             positionX -= Gdx.graphics.getDeltaTime() * speed;
         }
-        animation.getFrame().flip(dir, false);
+
 
 
         batch.begin();

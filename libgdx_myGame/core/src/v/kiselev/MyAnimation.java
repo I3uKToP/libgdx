@@ -3,30 +3,33 @@ package v.kiselev;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class MyAnimation {
 
-    private Texture texture;
-    private Animation<TextureRegion> animation;
+//    private Texture texture;
+    private TextureAtlas atlas;
+    private Animation<TextureAtlas.AtlasRegion> animation;
     private float time;
 
     public MyAnimation(String path, int column, int row , Animation.PlayMode playMode) {
-        texture = new Texture(path);
-
-        TextureRegion region0 = new TextureRegion(texture);
-        int xCnt  = region0.getRegionWidth()/column;
-        int yCnt = region0.getRegionHeight()/row;
-        TextureRegion[][] regions0 = region0.split(xCnt,yCnt);
-
-        TextureRegion[] regions1 = new TextureRegion[regions0.length*regions0[0].length];
-        int cnt = 0;
-        for (int i = 0; i < regions0.length; i++) {
-            for (int j = 0; j < regions0[0].length; j++) {
-                regions1[cnt++] = regions0[i][j];
-            }
-        }
-        animation = new Animation<>(1/10f, regions1);
+//        texture = new Texture(path);
+//
+//        TextureRegion region0 = new TextureRegion(texture);
+//        int xCnt  = region0.getRegionWidth()/column;
+//        int yCnt = region0.getRegionHeight()/row;
+//        TextureRegion[][] regions0 = region0.split(xCnt,yCnt);
+//
+//        TextureRegion[] regions1 = new TextureRegion[regions0.length*regions0[0].length];
+//        int cnt = 0;
+//        for (int i = 0; i < regions0.length; i++) {
+//            for (int j = 0; j < regions0[0].length; j++) {
+//                regions1[cnt++] = regions0[i][j];
+//            }
+//        }
+        atlas = new TextureAtlas("atlas/unnamed.atlas");
+        animation = new Animation<>(1/10f, atlas.findRegions("moving"));
         animation.setPlayMode(playMode);
         time += Gdx.graphics.getDeltaTime();
     }
@@ -52,6 +55,7 @@ public class MyAnimation {
     }
 
     public void dispose() {
-        texture.dispose();
+//        texture.dispose();
+        atlas.dispose();
     }
 }
