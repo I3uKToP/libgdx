@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="20" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="3">
+ <tileset firstgid="1" name="monochrome_tilemap" tilewidth="16" tileheight="16" spacing="1" tilecount="400" columns="20">
+  <image source="monochrome_tilemap.png" width="339" height="339"/>
+ </tileset>
+ <layer id="2" name="слой 2" width="20" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwxmYURlTGwAABU4EOQ==
+  </data>
+ </layer>
+ <layer id="1" name="фон" width="20" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYIAABUYGBkVGBqoBE6BZplQ0bzAAMyr7x4uAedx4xLDJ4TOPG4seZDFs8tjM+01lDADp4xXG
+  </data>
+ </layer>
+ <objectgroup id="3" name="objects">
+  <object id="1" name="point" x="76.6667" y="57.6667">
+   <point/>
+  </object>
+  <object id="2" name="board" x="0" y="0" width="320" height="127.5"/>
+ </objectgroup>
+</map>
