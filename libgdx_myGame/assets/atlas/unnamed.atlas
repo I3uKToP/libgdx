@@ -1,0 +1,48 @@
+
+unnamed.png
+size: 2048, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+moving
+  rotate: false
+  xy: 0, 5
+  size: 215, 223
+  orig: 215, 223
+  offset: 0, 0
+  index: 2
+moving
+  rotate: false
+  xy: 215, 4
+  size: 212, 224
+  orig: 212, 224
+  offset: 0, 0
+  index: 4
+moving
+  rotate: false
+  xy: 427, 0
+  size: 212, 228
+  orig: 212, 228
+  offset: 0, 0
+  index: 3
+moving
+  rotate: false
+  xy: 639, 0
+  size: 209, 228
+  orig: 209, 228
+  offset: 0, 0
+  index: 1
+moving
+  rotate: false
+  xy: 848, 0
+  size: 196, 228
+  orig: 196, 228
+  offset: 0, 0
+  index: 6
+moving
+  rotate: false
+  xy: 1044, 12
+  size: 166, 216
+  orig: 166, 216
+  offset: 0, 0
+  index: 5
