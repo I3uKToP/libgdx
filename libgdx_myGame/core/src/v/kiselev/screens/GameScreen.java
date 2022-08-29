@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -30,9 +29,9 @@ public class GameScreen implements Screen {
 
     private final OrthogonalTiledMapRenderer mapRenderer;
 
-    private float step = 2;
+    private final float step = 2;
 
-    private Rectangle cameraBoard;
+    private final Rectangle cameraBoard;
 
     private final ShapeRenderer shape;
 
