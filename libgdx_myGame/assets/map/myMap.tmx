@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="20" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="16">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="20" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="18">
  <tileset firstgid="1" name="monochrome_tilemap" tilewidth="16" tileheight="16" spacing="1" tilecount="400" columns="20">
   <image source="monochrome_tilemap.png" width="339" height="339"/>
  </tileset>
@@ -18,40 +18,40 @@
    <properties>
     <property name="BodyType" value="DynamicBody"/>
     <property name="GravityScale" type="float" value="1"/>
-    <property name="Restitution" type="float" value="0.5"/>
+    <property name="Restitution" type="float" value="0.1"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="3" name="objects">
-  <object id="4" x="-23.5" y="111" width="344.5" height="17.5">
+  <object id="4" name="wall" x="-23.5" y="111" width="344.5" height="17.5">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="6" x="48.625" y="80.25" width="14.875" height="30.75">
+  <object id="6" name="wall" x="48.625" y="80.25" width="14.875" height="30.75">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="7" x="32.625" y="96.375" width="30.75" height="14.5">
+  <object id="7" name="wall" x="32.625" y="96.375" width="30.75" height="14.5">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="8" x="128.727" y="80.3636" width="14.3636" height="30.9091">
+  <object id="8" name="wall" x="128.727" y="80.3636" width="14.3636" height="30.9091">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="9" x="112.545" y="96.3636" width="30.3636" height="14.3636">
+  <object id="9" name="wall" x="112.545" y="96.3636" width="30.3636" height="14.3636">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
@@ -65,21 +65,21 @@
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="12" x="-23.5" y="-12" width="27.5" height="122.5">
+  <object id="12" name="wall" x="-23.5" y="-12" width="27.5" height="122.5">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="13" x="-11" y="-11" width="335.5" height="16">
+  <object id="13" name="wall" x="-11" y="-11" width="335.5" height="16">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
     <property name="Restitution" type="float" value="0"/>
    </properties>
   </object>
-  <object id="14" x="308" y="-9.5" width="20.5" height="127.5">
+  <object id="14" name="wall" x="308" y="-9.5" width="20.5" height="127.5">
    <properties>
     <property name="BodyType" value="StaticBody"/>
     <property name="GravityScale" type="float" value="1"/>
