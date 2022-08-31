@@ -28,12 +28,7 @@ public class GameScreen implements Screen {
 
     private final OrthographicCamera camera;
 
-    private final TiledMap map;
-
     private final OrthogonalTiledMapRenderer mapRenderer;
-
-    private final float step = 2;
-
 
     private final int[] bg;
 
@@ -47,15 +42,13 @@ public class GameScreen implements Screen {
 
     private final MyAnimation animation;
 
-    private boolean flip = true;
-
     public GameScreen(MyCoolGame game) {
         this.game = game;
         batch = new SpriteBatch();
         animation = new MyAnimation("sprite.png", 6, 1, Animation.PlayMode.LOOP);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("map/myMap.tmx");
+        TiledMap map = loader.load("map/myMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
         camera.zoom = 0.2f;
@@ -63,10 +56,9 @@ public class GameScreen implements Screen {
         bg = new int[1];
         bg[0] = map.getLayers().getIndex("back");
 
-        l1 = new int[2];
+        l1 = new int[1];
 
         physic = new GamePhysic();
-
 
         Array<RectangleMapObject> objects = map.getLayers()
                 .get("objects").getObjects().getByType(RectangleMapObject.class);
@@ -95,8 +87,6 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) body.applyForceToCenter(new Vector2(-10000, 0), true);
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) body.applyForceToCenter(new Vector2(10000, 0), true);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) camera.position.y -= step;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) camera.position.y += step;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) camera.zoom += 0.01;
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && camera.zoom > 0) camera.zoom -= 0.01;
@@ -114,11 +104,12 @@ public class GameScreen implements Screen {
 
 
         mapRenderer.setView(camera);
-        mapRenderer.render();
-        if(flip) {
-            animation.getFrame().flip(true,false);
-            flip= false;
-            System.out.println("flip ");
+        mapRenderer.render(bg);
+        if(body.getLinearVelocity().x < 0 && !animation.getFrame().isFlipX() ) {
+            animation.getFrame().flip(true, false);
+        }
+        if(body.getLinearVelocity().x > 0 && animation.getFrame().isFlipX()) {
+            animation.getFrame().flip(true, false);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -127,10 +118,11 @@ public class GameScreen implements Screen {
         }
         batch.draw(animation.getFrame(), heroSize.getX(), heroSize.getY(),
                 heroSize.getWidth(), heroSize.getHeight());
+
         batch.end();
         physic.step();
         physic.debugDraw(camera);
-
+        mapRenderer.render(l1);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class GamePhysic {
         def.position.set(rectangle.x + rectangle.getWidth() / 2,
                 rectangle.y + rectangle.getHeight() / 2);
 
-        def.gravityScale = (float) object.getProperties().get("GravityScale");;
+        def.gravityScale = (float) object.getProperties().get("GravityScale");
 
         polygon.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
 
