@@ -20,6 +20,8 @@ import v.kiselev.GamePhysic;
 import v.kiselev.MyAnimation;
 import v.kiselev.MyCoolGame;
 
+import java.util.ArrayList;
+
 public class GameScreen implements Screen {
 
     private final MyCoolGame game;
@@ -42,6 +44,11 @@ public class GameScreen implements Screen {
 
     private final MyAnimation animation;
 
+    public static ArrayList<Body> bodies;
+
+    public static boolean isCanJump = false;
+
+
     public GameScreen(MyCoolGame game) {
         this.game = game;
         batch = new SpriteBatch();
@@ -59,6 +66,8 @@ public class GameScreen implements Screen {
         l1 = new int[1];
 
         physic = new GamePhysic();
+
+        bodies = new ArrayList<>();
 
         Array<RectangleMapObject> objects = map.getLayers()
                 .get("objects").getObjects().getByType(RectangleMapObject.class);
@@ -85,9 +94,11 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) body.applyForceToCenter(new Vector2(-10000, 0), true);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) body.applyForceToCenter(new Vector2(10000, 0), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) body.applyForceToCenter(new Vector2(-30000, 0), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) body.applyForceToCenter(new Vector2(30000, 0), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && isCanJump) body.applyForceToCenter(new Vector2(0, 300000), true);
 
+        System.out.println(isCanJump);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) camera.zoom += 0.01;
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && camera.zoom > 0) camera.zoom -= 0.01;
 
@@ -123,6 +134,12 @@ public class GameScreen implements Screen {
         physic.step();
         physic.debugDraw(camera);
         mapRenderer.render(l1);
+
+        for (Body body1 : bodies) {
+            physic.deleteBody(body1);
+        }
+        bodies.clear();
+
     }
 
     @Override

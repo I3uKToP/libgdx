@@ -16,6 +16,12 @@ public class GamePhysic {
         this.world = new World(new Vector2(0, -9.81f), true);
 
         this.debugRenderer = new Box2DDebugRenderer();
+
+        this.world.setContactListener(new MyContactListener());
+    }
+
+    public void deleteBody(Body body) {
+        world.destroyBody(body);
     }
 
     public Body addObject(RectangleMapObject object) {
@@ -24,11 +30,11 @@ public class GamePhysic {
         BodyDef def = new BodyDef();
         FixtureDef fdef = new FixtureDef();
 
-        if(type.equals("StaticBody")) {
+        if (type.equals("StaticBody")) {
             def.type = BodyDef.BodyType.StaticBody;
         }
 
-        if(type.equals("DynamicBody")) {
+        if (type.equals("DynamicBody")) {
             def.type = BodyDef.BodyType.DynamicBody;
         }
 
@@ -47,7 +53,14 @@ public class GamePhysic {
         fdef.restitution = (float) object.getProperties().get("Restitution");
 
         Body body = world.createBody(def);
-        body.createFixture(fdef).setUserData("wall");
+        String name = object.getName();
+        body.createFixture(fdef).setUserData(name);
+        if (name != null && name.equals("hero")) {
+            polygon.setAsBox(rectangle.getWidth() / 12, rectangle.getHeight() / 12,
+                    new Vector2(0, -rectangle.getWidth() / 2), 0);
+            body.createFixture(fdef).setSensor(true);
+        }
+
         polygon.dispose();
 
         return body;
