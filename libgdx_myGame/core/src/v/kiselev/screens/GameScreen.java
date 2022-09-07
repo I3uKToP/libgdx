@@ -22,6 +22,8 @@ import v.kiselev.MyCoolGame;
 
 import java.util.ArrayList;
 
+import static v.kiselev.GamePhysic.PPM;
+
 public class GameScreen implements Screen {
 
     private final MyCoolGame game;
@@ -45,8 +47,6 @@ public class GameScreen implements Screen {
     private final MyAnimation animation;
 
     public static ArrayList<Body> bodies;
-
-    public static boolean isCanJump = false;
 
 
     public GameScreen(MyCoolGame game) {
@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
 
         body = physic.addObject(hero);
 
-        l1[0] =map.getLayers().getIndex("layer1");
+        l1[0] = map.getLayers().getIndex("layer1");
     }
 
     @Override
@@ -94,32 +94,27 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) body.applyForceToCenter(new Vector2(-30000, 0), true);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) body.applyForceToCenter(new Vector2(30000, 0), true);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && isCanJump) body.applyForceToCenter(new Vector2(0, 300000), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) body.applyForceToCenter(new Vector2(-1.5f, 0), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) body.applyForceToCenter(new Vector2(1.5f, 0), true);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && physic.listener.isOnGround())
+            body.applyForceToCenter(new Vector2(0, 5f), true);
 
-        System.out.println(isCanJump);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) camera.zoom += 0.01;
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && camera.zoom > 0) camera.zoom -= 0.01;
 
-        camera.position.x = body.getPosition().x;
-        camera.position.y = body.getPosition().y;
+        camera.position.x = body.getPosition().x * PPM;
+        camera.position.y = body.getPosition().y * PPM;
 
         animation.setTime(Gdx.graphics.getDeltaTime());
 
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
         heroSize.x = body.getPosition().x - heroSize.getWidth() / 2;
         heroSize.y = body.getPosition().y - heroSize.getHeight() / 2;
-        batch.begin();
 
-
-        mapRenderer.setView(camera);
-        mapRenderer.render(bg);
-        if(body.getLinearVelocity().x < 0 && !animation.getFrame().isFlipX() ) {
+        if (body.getLinearVelocity().x < 0 && !animation.getFrame().isFlipX()) {
             animation.getFrame().flip(true, false);
         }
-        if(body.getLinearVelocity().x > 0 && animation.getFrame().isFlipX()) {
+        if (body.getLinearVelocity().x > 0 && animation.getFrame().isFlipX()) {
             animation.getFrame().flip(true, false);
         }
 
@@ -127,13 +122,19 @@ public class GameScreen implements Screen {
             dispose();
             game.setScreen(new MenuForScreen(game));
         }
-        batch.draw(animation.getFrame(), heroSize.getX(), heroSize.getY(),
-                heroSize.getWidth(), heroSize.getHeight());
+        float x = Gdx.graphics.getWidth() / 2f - heroSize.getWidth() / 2 / camera.zoom;
+        float y = Gdx.graphics.getHeight() / 2f - heroSize.getHeight() / 2 / camera.zoom;
 
+        mapRenderer.setView(camera);
+        mapRenderer.render(bg);
+        mapRenderer.render(l1);
+
+
+        batch.begin();
+        batch.draw(animation.getFrame(), x, y, heroSize.getWidth() * 5, heroSize.getHeight() * 5);
         batch.end();
         physic.step();
         physic.debugDraw(camera);
-        mapRenderer.render(l1);
 
         for (Body body1 : bodies) {
             physic.deleteBody(body1);
