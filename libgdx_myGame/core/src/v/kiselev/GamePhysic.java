@@ -12,12 +12,18 @@ public class GamePhysic {
 
     private final Box2DDebugRenderer debugRenderer;
 
+    public static final float PPM = 100;
+
+    public final MyContactListener listener;
+
     public GamePhysic() {
         this.world = new World(new Vector2(0, -9.81f), true);
 
         this.debugRenderer = new Box2DDebugRenderer();
 
-        this.world.setContactListener(new MyContactListener());
+        listener = new MyContactListener();
+
+        this.world.setContactListener(listener);
     }
 
     public void deleteBody(Body body) {
@@ -40,15 +46,15 @@ public class GamePhysic {
 
         PolygonShape polygon = new PolygonShape();
 
-        def.position.set(rectangle.x + rectangle.getWidth() / 2,
-                rectangle.y + rectangle.getHeight() / 2);
+        def.position.set((rectangle.x + rectangle.getWidth() / 2) / PPM,
+                (rectangle.y + rectangle.getHeight() / 2) / PPM);
 
         def.gravityScale = (float) object.getProperties().get("GravityScale");
 
-        polygon.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
+        polygon.setAsBox(rectangle.getWidth() / 2 / PPM, rectangle.getHeight() / 2 / PPM);
 
         fdef.shape = polygon;
-        fdef.friction = 0;
+        fdef.friction = 0.8f;
         fdef.density = 1;
         fdef.restitution = (float) object.getProperties().get("Restitution");
 
@@ -56,9 +62,10 @@ public class GamePhysic {
         String name = object.getName();
         body.createFixture(fdef).setUserData(name);
         if (name != null && name.equals("hero")) {
-            polygon.setAsBox(rectangle.getWidth() / 12, rectangle.getHeight() / 12,
+            polygon.setAsBox(rectangle.getWidth() / 3 / PPM, rectangle.getHeight() / 12 / PPM,
                     new Vector2(0, -rectangle.getWidth() / 2), 0);
-            body.createFixture(fdef).setSensor(true);
+            body.createFixture(fdef).setUserData("legs");
+            body.setFixedRotation(true);
         }
 
         polygon.dispose();
