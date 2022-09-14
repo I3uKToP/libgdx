@@ -1,10 +1,14 @@
-package v.kiselev;
+package v.kiselev.physic;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import v.kiselev.MyContactListener;
+
+import java.util.Iterator;
 
 public class GamePhysic {
 
@@ -58,8 +62,12 @@ public class GamePhysic {
         fdef.density = 1;
         fdef.restitution = (float) object.getProperties().get("Restitution");
 
-        Body body = world.createBody(def);
-        String name = object.getName();
+        String name = "";
+        if(object.getName() != null) name = object.getName();
+        Body body;
+        body = world.createBody(def);
+        body.setUserData(new PhysicBody(new Vector2(rectangle.x, rectangle.y),
+                new Vector2(rectangle.getWidth(), rectangle.getHeight()), name));
         body.createFixture(fdef).setUserData(name);
         if (name != null && name.equals("hero")) {
             polygon.setAsBox(rectangle.getWidth() / 3 / PPM, rectangle.getHeight() / 12 / PPM,
@@ -71,6 +79,17 @@ public class GamePhysic {
         polygon.dispose();
 
         return body;
+    }
+
+    public Array<Body> getBodies(String name) {
+        Array<Body> ab = new Array<>();
+        world.getBodies(ab);
+        Iterator<Body> it = ab.iterator();
+        while (it.hasNext()) {
+            String text = ((PhysicBody)it.next().getUserData()).name;
+            if(!text.equals(name)) it.remove();
+        }
+        return  ab;
     }
 
     public void setGravity(Vector2 gravity) {

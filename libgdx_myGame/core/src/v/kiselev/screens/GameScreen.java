@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -16,13 +18,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import v.kiselev.GamePhysic;
+import v.kiselev.physic.GamePhysic;
 import v.kiselev.MyAnimation;
 import v.kiselev.MyCoolGame;
 
 import java.util.ArrayList;
 
-import static v.kiselev.GamePhysic.PPM;
+import static v.kiselev.physic.GamePhysic.PPM;
 
 public class GameScreen implements Screen {
 
@@ -47,6 +49,8 @@ public class GameScreen implements Screen {
     private final MyAnimation animation;
 
     public static ArrayList<Body> bodies;
+
+    private final BitmapFont font;
 
 
     public GameScreen(MyCoolGame game) {
@@ -83,6 +87,10 @@ public class GameScreen implements Screen {
         body = physic.addObject(hero);
 
         l1[0] = map.getLayers().getIndex("layer1");
+
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+
     }
 
     @Override
@@ -133,8 +141,18 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.draw(animation.getFrame(), x, y, heroSize.getWidth() * 5, heroSize.getHeight() * 5);
         batch.end();
-        physic.step();
+
+//        TextureRegion imgT = animation.getFrame();
+//        batch.begin();
+//        Array<Body> ab = physic.getBodies("wall");
+//        for (Body b : ab) {
+//
+//        }
         physic.debugDraw(camera);
+//
+//        batch.begin();
+//        font.draw(batch, "health", 0, 30);
+//        batch.end();
 
         for (Body body1 : bodies) {
             physic.deleteBody(body1);
@@ -167,5 +185,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        font.dispose();
     }
 }
